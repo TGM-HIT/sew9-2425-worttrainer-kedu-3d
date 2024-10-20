@@ -3,6 +3,11 @@ package worttrainer.Model;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+/**
+ * Paare von Wörtern mit den dazugehörigen Bildern
+ * @author Kevin Duchon 5DHIT
+ * @version 2024-10-20
+ */
 public class Worteintrag {
     private static String url;
     private String wort;

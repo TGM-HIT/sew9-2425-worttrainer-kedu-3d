@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+/**
+ * Das Model des Rechtschreibtrainers
+ * @author Kevin Duchon 5DHIT
+ * @version 2024-10-20
+ */
 public class Worttrainer {
 
     private List<Worteintrag> wortliste = new ArrayList<>();    // Der Rechtschreibtrainer hat eine Menge an Wort-Bild-Paaren zur Verfügung. Anfangs ist kein Paar ausgewählt.
