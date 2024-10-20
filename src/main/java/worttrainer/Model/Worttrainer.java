@@ -81,4 +81,28 @@ public class Worttrainer {
     public int getFalscheWorte() {
         return falscheWorte;
     }
+
+    public Worteintrag getAktuellerWorteintrag() {
+        return aktuellerWorteintrag;
+    }
+
+    public void setAktuellerWorteintrag(Worteintrag aktuellerWorteintrag) {
+        this.aktuellerWorteintrag = aktuellerWorteintrag;
+    }
+
+    public List<Worteintrag> getWortliste() {
+        return wortliste;
+    }
+
+    public void setWortliste(List<Worteintrag> wortliste) {
+        this.wortliste = wortliste;
+    }
+
+    public void setRichtigeWorte(int richtigeWorte) {
+        this.richtigeWorte = richtigeWorte;
+    }
+
+    public void setFalscheWorte(int falscheWorte) {
+        this.falscheWorte = falscheWorte;
+    }
 }
