@@ -28,3 +28,18 @@ Bei klick auf diesen Button wird der Fortschritt (Aktuelles Bild, Richtige Woert
 
 #### Forschritt laden Button
 Bei klick auf diesen Button wird der Fortschritt (Aktuelles Bild, Richtige Woerter, Falsche Woerter) geladen. 
+
+#### Wortliste ausgeben
+Hier kann die gesamte Liste an Wörtern inkl. der dazugehörigen Url angezeigt werden.
+
+#### Hilfe
+Dies ist eine kleine Beschreibung des Spiels
+
+#### Zuruecksetzen
+Dieser Button setzt den aktuellen Stand (Richtige Woerter, Anzahl Woerter) zurück.
+
+#### Wort hinzufuegen
+Bei Klick erscheinen zwei Fenster:
+1. Als erstes muss das Wort eingegeben werden
+2. Als zweites muss der dazugehörige URL angegeben werden
+   - Hierbei muss beachtet werden, dass die URL mit http://a.a oder https://a.a beginnt und mit jpg|jpeg|png|webp|avif|gif endet.
