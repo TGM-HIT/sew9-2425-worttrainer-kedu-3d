@@ -1,5 +1,6 @@
 package worttrainer.Model;
 
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +11,7 @@ import java.util.Random;
  * @author Kevin Duchon 5DHIT
  * @version 2024-10-20
  */
-public class Worttrainer {
+public class Worttrainer implements Serializable {
 
     private List<Worteintrag> wortliste = new ArrayList<>();
 
@@ -73,12 +74,12 @@ public class Worttrainer {
      */
     public String listenAusgabe() {
         StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < wortliste.size(); i++) {
-            builder.append(wortliste.get(i)).append("\n");
+        for (Worteintrag eintrag : wortliste) {
+            builder.append(eintrag).append("\n");
         }
-
         return builder.toString();
     }
+
 
     public String getBildUrl() {
         if (aktuellerWorteintrag != null) {

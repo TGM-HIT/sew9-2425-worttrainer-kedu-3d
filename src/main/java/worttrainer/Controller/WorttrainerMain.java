@@ -1,13 +1,15 @@
 package worttrainer.Controller;
+
 import worttrainer.Model.Worteintrag;
 import worttrainer.Model.Worttrainer;
-import worttrainer.Persistenz.WorttrainerBackup;
+import worttrainer.Persistenz.SaveJSON;
+import worttrainer.Persistenz.SaveLoad;
 import worttrainer.View.WortFrame;
 import worttrainer.View.Worttraining;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.net.MalformedURLException;
 
 /**
@@ -19,11 +21,14 @@ import java.net.MalformedURLException;
 public class WorttrainerMain implements ActionListener {
     private Worttrainer worttrainer;
     private Worttraining worttraining;
+    private SaveLoad saveLoad = new SaveJSON();
+
+
     /**
      * Konstruktor
      */
-    public WorttrainerMain() throws Exception {
-        worttrainer = new Worttrainer();
+    public WorttrainerMain() {
+        this.worttrainer = new Worttrainer();
         initializeWorteintraege();
         worttraining = new Worttraining(this, worttrainer);
         new WortFrame("Wort-Trainer", worttraining);
@@ -106,27 +111,19 @@ public class WorttrainerMain implements ActionListener {
      * Methode zum Speichern eines Fortschritts
      */
     private void handleSave() {
-        try {
-            WorttrainerBackup.speichern(worttrainer);
-            JOptionPane.showMessageDialog(null, "Fortschritt erfolgreich gespeichert!");
-        } catch (IOException e) {
-            System.err.println("Fehler beim Speichern: " + e.getMessage());
-        }
+        saveLoad.speichern(worttrainer, "worttrainer_session.json");
+        JOptionPane.showMessageDialog(null, "Fortschritt erfolgreich gespeichert!");
     }
 
     /**
      * Methode zum Laden eines Fortschritts
      */
     private void handleLoad() {
-        try {
-            this.worttrainer = WorttrainerBackup.laden();
-            worttraining.worttrainerLaden(this.worttrainer);
-            worttraining.updateStatistics();
-            worttraining.changeImage(worttrainer.getBildUrl());
-            JOptionPane.showMessageDialog(null, "Fortschritt erfolgreich geladen!");
-        } catch (IOException e) {
-            System.err.println("Fehler beim Laden: " + e.getMessage());
-        }
+        this.worttrainer = saveLoad.laden("worttrainer_session.json");
+        worttraining.worttrainerLaden(this.worttrainer);
+        worttraining.updateStatistics();
+        worttraining.changeImage(worttrainer.getBildUrl());
+        JOptionPane.showMessageDialog(null, "Fortschritt erfolgreich geladen!");
     }
 
     /**

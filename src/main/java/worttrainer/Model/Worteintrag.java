@@ -2,6 +2,7 @@ package worttrainer.Model;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -11,7 +12,7 @@ import java.util.regex.Pattern;
  * @author Kevin Duchon 5DHIT
  * @version 2024-10-20
  */
-public class Worteintrag {
+public class Worteintrag implements Serializable {
     private String url;
     private String wort;
 

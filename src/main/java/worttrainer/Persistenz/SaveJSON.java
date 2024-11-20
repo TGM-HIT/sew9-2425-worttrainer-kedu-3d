@@ -1,11 +1,12 @@
 package worttrainer.Persistenz;
 
-import worttrainer.Model.Worteintrag;
-import worttrainer.Model.Worttrainer;
 import org.json.JSONArray;
 import org.json.JSONObject;
-import java.io.FileWriter;
+import worttrainer.Model.Worteintrag;
+import worttrainer.Model.Worttrainer;
+
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,15 +16,12 @@ import java.util.List;
  * @author Kevin Duchon 5DHIT
  * @version 2024-10-20
  */
-public class WorttrainerBackup {
-    private static final String FILE_PATH = "worttrainer_session.json";
-
+public class SaveJSON implements SaveLoad{
     /**
      * Speichert die aktuelle Session des Worttrainers in einer JSON-Datei
      * @param worttrainer zu speichernde Session
-     * @throws IOException falls ein Fehler bei der Speicherung geschieht
      */
-    public static void speichern(Worttrainer worttrainer) throws IOException {
+    public void speichern(Worttrainer worttrainer, String pfad) {
         JSONObject jsonObj = new JSONObject();
 
         // Statistiken speichern
@@ -49,20 +47,21 @@ public class WorttrainerBackup {
         jsonObj.put("wortliste", wortArray);
 
         // In Datei schreiben
-        try (FileWriter file = new FileWriter(FILE_PATH)) {
-            file.write(jsonObj.toString(4)); // schöne Ausgabe
+        try (FileWriter file = new FileWriter(pfad)) {
+            file.write(jsonObj.toString(4));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
     }
 
     /**
      * Lädt die gespeicherte Session aus der JSON-Datei und stellt den Zustand des Worttrainers wieder her
      * @return Die Worttrainer Session
-     * @throws IOException Falls ein Fehler beim Laden des Worttrainers geschieht
      */
-    public static Worttrainer laden() throws IOException {
+    public Worttrainer laden(String pfad) {
         Worttrainer worttrainer = new Worttrainer();
 
-        try (FileReader reader = new FileReader(FILE_PATH)) {
+        try (FileReader reader = new FileReader(pfad)) {
             StringBuilder sb = new StringBuilder();
             int i;
             while ((i = reader.read()) != -1) {
@@ -96,6 +95,8 @@ public class WorttrainerBackup {
                 wortliste.add(eintrag);
             }
             worttrainer.setWortliste(wortliste);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
         return worttrainer;
