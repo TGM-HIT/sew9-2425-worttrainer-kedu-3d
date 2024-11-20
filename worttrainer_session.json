@@ -1,0 +1,26 @@
+{
+    "falscheWorte": 0,
+    "wortliste": [
+        {
+            "wort": "Hund",
+            "url": "https://www.shutterstock.com/shutterstock/photos/2485889799/display_1500/stock-vector-cute-cartoon-corgi-dog-vector-kawaii-puppy-character-with-a-cheerful-face-expression-corgi-animal-2485889799.jpg"
+        },
+        {
+            "wort": "Katze",
+            "url": "https://media.os.fressnapf.com/cms/2020/05/Ratgeber_Katze_Erziehung_KittenOrange_1200x527.jpg"
+        },
+        {
+            "wort": "Papagei",
+            "url": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Hellroter.jpg"
+        },
+        {
+            "wort": "pelikan",
+            "url": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeWyF_4oGUtv4kFW5xCSMQPLHRIoNaYkwIfw&s.png"
+        }
+    ],
+    "aktuellerWorteintrag": {
+        "wort": "Katze",
+        "url": "https://media.os.fressnapf.com/cms/2020/05/Ratgeber_Katze_Erziehung_KittenOrange_1200x527.jpg"
+    },
+    "richtigeWorte": 0
+}
