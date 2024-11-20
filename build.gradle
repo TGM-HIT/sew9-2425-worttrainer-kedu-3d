@@ -1,6 +1,11 @@
 plugins {
-    id 'java'
+    id 'application'
 }
+
+application {
+    mainClass = 'worttrainer.Main' // Ersetze das mit deiner Main-Klasse
+}
+
 
 group = 'org.example'
 version = '1.0-SNAPSHOT'
@@ -12,6 +17,8 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    implementation 'org.json:json:20230227'
+
 }
 
 test {
