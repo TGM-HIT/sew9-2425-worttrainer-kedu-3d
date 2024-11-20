@@ -157,26 +157,41 @@ public class WorttrainerMain implements ActionListener {
      */
     private void handleHinzu() {
         try {
+            // Benutzer wird nach dem neuen Wort gefragt
             String neuesWort = JOptionPane.showInputDialog(null, "Bitte geben Sie das neue Wort ein!");
             if (neuesWort == null || neuesWort.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Kein Wort eingegeben! Abbruch.", "Fehler", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
+            // Benutzer wird nach der zugehörigen URL gefragt
             String neuerURL = JOptionPane.showInputDialog(null, "Bitte geben Sie die dazugehörige URL an!");
             if (neuerURL == null || neuerURL.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Keine URL eingegeben! Abbruch.", "Fehler", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+
+            // Überprüfen, ob die URL gültig ist
             Worteintrag neuerEintrag = new Worteintrag(neuerURL, neuesWort);
+            if (!neuerEintrag.checkUrl()) {
+                // Falls die URL ungültig ist, wird eine Fehlermeldung angezeigt
+                JOptionPane.showMessageDialog(null, "Die angegebene URL ist ungültig oder verweist nicht auf ein Bild.", "Fehler", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Hinzufügen des neuen Wortes und der URL zur Liste
             worttrainer.addWorteintrag(neuerEintrag);
             JOptionPane.showMessageDialog(null, "Neuer Worteintrag erfolgreich hinzugefügt!");
+
+            // Bild für den neuen Eintrag aktualisieren
             worttraining.changeImage();
-        } catch (MalformedURLException e) {
-            JOptionPane.showMessageDialog(null, "Die eingegebene URL ist ungültig!", "Fehler", JOptionPane.ERROR_MESSAGE);
+
         } catch (Exception e) {
+            // Allgemeine Fehlerbehandlung
             JOptionPane.showMessageDialog(null, "Ein Fehler ist aufgetreten: " + e.getMessage(), "Fehler", JOptionPane.ERROR_MESSAGE);
         }
     }
+
 
     /**
      * Starten
