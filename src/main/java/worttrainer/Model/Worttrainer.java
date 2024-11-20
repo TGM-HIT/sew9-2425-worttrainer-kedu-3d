@@ -12,15 +12,15 @@ import java.util.Random;
  */
 public class Worttrainer {
 
-    private List<Worteintrag> wortliste = new ArrayList<>();    // Der Rechtschreibtrainer hat eine Menge an Wort-Bild-Paaren zur Verfügung. Anfangs ist kein Paar ausgewählt.
+    private List<Worteintrag> wortliste = new ArrayList<>();
 
-    private int richtigeWorte = 0;  // Statistik richtig
-    private int falscheWorte = 0;   // Statistik falsch
+    private int richtigeWorte = 0;
+    private int falscheWorte = 0;
 
-    private Worteintrag aktuellerWorteintrag;     // Aktueller Worteintrag fuer die Vergleiche
+    private Worteintrag aktuellerWorteintrag;
 
     public void addWorteintrag(Worteintrag worteintrag) throws MalformedURLException {
-        if (worteintrag != null && Worteintrag.checkUrl()) {
+        if (worteintrag != null && worteintrag.checkUrl()) {
             wortliste.add(worteintrag);
         }
     }
@@ -58,13 +58,26 @@ public class Worttrainer {
         if (aktuellerWorteintrag != null && wort != null && !wort.isEmpty()) {
             if (wort.equalsIgnoreCase(aktuellerWorteintrag.getWort())) {
                 richtigeWorte++;
-                aktuellerWorteintrag = null;  // Paar ist richtig geraten, also deaktivieren
+                aktuellerWorteintrag = null;
                 return true;
             } else {
                 falscheWorte++;
             }
         }
         return false;
+    }
+
+    /**
+     * Methode zur ausgabe der Liste für die GUI
+     * @return Liste mit allen Wörtern und der dazugehörigen URL
+     */
+    public String listenAusgabe() {
+        StringBuilder builder = new StringBuilder();
+        for (int i = 0; i < wortliste.size(); i++) {
+            builder.append(wortliste.get(i)).append("\n");
+        }
+
+        return builder.toString();
     }
 
     public String getBildUrl() {

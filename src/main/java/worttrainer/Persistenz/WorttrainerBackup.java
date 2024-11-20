@@ -10,6 +10,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Klasse um den Fortschritt des Wortrainers speichern und laden zu koennen
+ * @author Kevin Duchon 5DHIT
+ * @version 2024-10-20
+ */
 public class WorttrainerBackup {
     private static final String FILE_PATH = "worttrainer_session.json";
 

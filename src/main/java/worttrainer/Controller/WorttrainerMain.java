@@ -1,29 +1,37 @@
 package worttrainer.Controller;
-
 import worttrainer.Model.Worteintrag;
 import worttrainer.Model.Worttrainer;
 import worttrainer.Persistenz.WorttrainerBackup;
 import worttrainer.View.WortFrame;
 import worttrainer.View.Worttraining;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 
+/**
+ * Controller des Worttrainers
+ * Hier werden Button klicks usw gehandelt
+ * @author Kevin Duchon 5DHIT
+ * @version 2024-10-20
+ */
 public class WorttrainerMain implements ActionListener {
-
     private Worttrainer worttrainer;
     private Worttraining worttraining;
-
+    /**
+     * Konstruktor
+     */
     public WorttrainerMain() throws Exception {
         worttrainer = new Worttrainer();
-        initializeWorteintraege(); // Beispiel-Einträge laden
-        worttraining = new Worttraining(this, worttrainer); // View und Model verbinden
-        new WortFrame("Wort-Trainer", worttraining); // GUI starten
+        initializeWorteintraege();
+        worttraining = new Worttraining(this, worttrainer);
+        new WortFrame("Wort-Trainer", worttraining);
     }
 
+    /**
+     * Methode um Beispiel Worteintraege zu initialisieren
+     */
     private void initializeWorteintraege() {
         try {
             // Beispiel-Worteinträge hinzufügen
@@ -33,68 +41,70 @@ public class WorttrainerMain implements ActionListener {
                     "https://media.os.fressnapf.com/cms/2020/05/Ratgeber_Katze_Erziehung_KittenOrange_1200x527.jpg", "Katze"));
             worttrainer.addWorteintrag(new Worteintrag(
                     "https://upload.wikimedia.org/wikipedia/commons/b/b6/Hellroter.jpg", "Papagei"));
+            // Worthinzufuegen test: https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQeWyF_4oGUtv4kFW5xCSMQPLHRIoNaYkwIfw&s.png, Pelikan
         } catch (MalformedURLException e) {
             System.err.println("Fehler beim Initialisieren der Worteinträge: " + e.getMessage());
         }
     }
 
+    /**
+     * ActionPerformed über die GUI und falls ein Ereignis wie ein Button klick geschieht, dann arbeitet er damit.
+     * @param e the event to be processed
+     */
     @Override
     public void actionPerformed(ActionEvent e) {
         String command = e.getActionCommand();
-
         switch (command) {
             case "textfield":
                 handleTextfield();
                 break;
-
             case "zurueck":
                 handleReset();
                 break;
-
             case "speichern":
                 handleSave();
                 break;
-
             case "laden":
                 handleLoad();
                 break;
-
             case "liste":
                 handleShowList();
                 break;
-
             case "hilfe":
                 handleHelp();
                 break;
-
             case "worthinzu":
                 handleHinzu();
                 break;
-
             default:
                 System.out.println("Unbekannter Befehl: " + command);
         }
     }
 
+    /**
+     * Bei Textfeld Bestätigung wird gecheckt ob die Eingabe valide ist
+     */
     private void handleTextfield() {
         String input = worttraining.getTextfield();
         if (worttrainer.checkWort(input)) {
-            worttraining.wortRichtig(); // Zählt richtiges Wort hoch und aktualisiert Anzeige
+            worttraining.wortRichtig();
         } else {
-            worttraining.wortFalsch(); // Zählt falsches Wort hoch und aktualisiert Anzeige
+            worttraining.wortFalsch();
         }
-
-        worttraining.resetTextfeld(); // Eingabefeld zurücksetzen
-        worttraining.changeImage(); // Neues Bild anzeigen
+        worttraining.resetTextfeld();
+        worttraining.changeImage();
     }
 
+    /**
+     * Methode für zurücksetzen des Fortschritts
+     */
     private void handleReset() {
-        worttrainer.setRichtigeWorte(0); // Zähler zurücksetzen
-        worttrainer.setFalscheWorte(0); // Zähler zurücksetzen
-        worttraining.updateStatistics();
+        worttraining.reset();
     }
 
-
+    /**
+     * Methode zum Speichern eines Fortschritts
+     */
     private void handleSave() {
         try {
             WorttrainerBackup.speichern(worttrainer);
@@ -104,12 +114,13 @@ public class WorttrainerMain implements ActionListener {
         }
     }
 
+    /**
+     * Methode zum Laden eines Fortschritts
+     */
     private void handleLoad() {
         try {
-            this.worttrainer = WorttrainerBackup.laden(); // Controller aktualisieren
-            worttraining.worttrainerLaden(this.worttrainer); // View aktualisieren
-
-            // GUI-Elemente anpassen
+            this.worttrainer = WorttrainerBackup.laden();
+            worttraining.worttrainerLaden(this.worttrainer);
             worttraining.updateStatistics();
             worttraining.changeImage(worttrainer.getBildUrl());
             JOptionPane.showMessageDialog(null, "Fortschritt erfolgreich geladen!");
@@ -118,6 +129,9 @@ public class WorttrainerMain implements ActionListener {
         }
     }
 
+    /**
+     * Methode zur Ausgabe der Wortliste
+     */
     private void handleShowList() {
         JOptionPane.showMessageDialog(null,
                 worttrainer.listenAusgabe(),
@@ -125,41 +139,38 @@ public class WorttrainerMain implements ActionListener {
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Methode für eine Beschreibung des Worttrainers
+     */
     private void handleHelp() {
         JOptionPane.showMessageDialog(null,
                 "Anleitung:\n" +
                         "1. Geben Sie das Wort im Textfeld ein und drücken Sie Enter.\n" +
-                        "2. Der Trainer zeigt Ihnen ein neues Bild, wenn Ihre Antwort korrekt war.\n" +
+                        "2. Der Trainer zeigt Ihnen ein neues Bild und Sie sehen Ihren Punktestand links unten.\n" +
                         "3. Nutzen Sie die Buttons, um Fortschritte zu speichern oder zurückzusetzen.",
                 "Hilfe",
                 JOptionPane.INFORMATION_MESSAGE);
     }
 
+    /**
+     * Methode zum Hinzufügen eines Wortes (inkl. Url)
+     */
     private void handleHinzu() {
         try {
-            // Eingabe für das neue Wort
             String neuesWort = JOptionPane.showInputDialog(null, "Bitte geben Sie das neue Wort ein!");
             if (neuesWort == null || neuesWort.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Kein Wort eingegeben! Abbruch.", "Fehler", JOptionPane.ERROR_MESSAGE);
-                return; // Keine Eingabe, Abbruch
+                return;
             }
-
-            // Eingabe für die URL
             String neuerURL = JOptionPane.showInputDialog(null, "Bitte geben Sie die dazugehörige URL an!");
             if (neuerURL == null || neuerURL.isEmpty()) {
                 JOptionPane.showMessageDialog(null, "Keine URL eingegeben! Abbruch.", "Fehler", JOptionPane.ERROR_MESSAGE);
-                return; // Keine Eingabe, Abbruch
+                return;
             }
-
-            // Neues Worteintrag-Objekt erstellen und hinzufügen
-            Worteintrag neuerEintrag = new Worteintrag(neuerURL, neuesWort); // URL, dann Wort
+            Worteintrag neuerEintrag = new Worteintrag(neuerURL, neuesWort);
             worttrainer.addWorteintrag(neuerEintrag);
-
-            // Optional: Erfolgsmeldung anzeigen
             JOptionPane.showMessageDialog(null, "Neuer Worteintrag erfolgreich hinzugefügt!");
-
-            // GUI aktualisieren, falls nötig
-            worttraining.changeImage(); // Zufälliges neues Bild anzeigen
+            worttraining.changeImage();
         } catch (MalformedURLException e) {
             JOptionPane.showMessageDialog(null, "Die eingegebene URL ist ungültig!", "Fehler", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
@@ -167,7 +178,10 @@ public class WorttrainerMain implements ActionListener {
         }
     }
 
+    /**
+     * Starten
+     */
     public static void main(String[] args) throws Exception {
-        new WorttrainerMain(); // Hauptprogramm starten
+        new WorttrainerMain();
     }
 }
